@@ -5,26 +5,52 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 //资源类
 class MyCache {
     private volatile Map<String, Object> map = new HashMap<String, Object>();
     private Lock lock = new ReentrantLock();
+      private ReentrantReadWriteLock rrwLock = new ReentrantReadWriteLock();
 
     public void put (String key, Object value) {
-        System.out.println(Thread.currentThread().getName() + "\t 正在写入：" + key);
-        //暂停一会儿线程
-        try{TimeUnit.MICROSECONDS.sleep(300);} catch (java.lang.InterruptedException e) { e.printStackTrace();}
-        map.put(key, value);
-        System.out.println(Thread.currentThread().getName() + "\t 写入完成：");
+        rrwLock.writeLock().lock();
+        try {
+
+            System.out.println(Thread.currentThread().getName() + "\t 正在写入：" + key);
+            //暂停一会儿线程
+            try{TimeUnit.MICROSECONDS.sleep(300);} catch (java.lang.InterruptedException e) { e.printStackTrace();}
+            map.put(key, value);
+            System.out.println(Thread.currentThread().getName() + "\t 写入完成：");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            rrwLock.writeLock().unlock();
+        }
+
     }
+
     public void get (String key) {
-        System.out.println(Thread.currentThread().getName() + "\t 正在读取：" + key);
-        //暂停一会儿线程
-        try{TimeUnit.MICROSECONDS.sleep(300);} catch (java.lang.InterruptedException e) { e.printStackTrace();}
-        Object result = map.get(key);
-        System.out.println(Thread.currentThread().getName() + "\t 读取完成：");
+
+        rrwLock.readLock().lock();
+        try {
+
+            System.out.println(Thread.currentThread().getName() + "\t 正在读取：" + key);
+            //暂停一会儿线程
+            try{TimeUnit.MICROSECONDS.sleep(300);} catch (java.lang.InterruptedException e) { e.printStackTrace();}
+            Object result = map.get(key);
+            System.out.println(Thread.currentThread().getName() + "\t 读取完成：");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            rrwLock.readLock().unlock();
+        }
+
     }
+
+//    public void clearMap
 }
 
 /**
