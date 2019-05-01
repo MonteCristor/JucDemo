@@ -23,6 +23,12 @@ public class CountDownLatchDemo {
         countDownLatch.await();
         System.out.println(Thread.currentThread().getName() + "\t *****************秦，一统天下");
 
+        System.out.println();
+        System.out.println();
+
+        System.out.println(CountryEnum.ONE);
+        System.out.println(CountryEnum.ONE.getRetCode());
+        System.out.println(CountryEnum.ONE.getRetMessage());
     }
 
     private static void closeDoor() throws InterruptedException {
