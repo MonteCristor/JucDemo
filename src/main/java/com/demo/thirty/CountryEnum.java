@@ -6,6 +6,7 @@ import lombok.Getter;
  * @Author: sw
  * @sidereal_csday: 2019-05-01 12:18
  * 枚举使用标准
+ * 枚举就是一张数据库的表
  */
 public enum CountryEnum {
 
