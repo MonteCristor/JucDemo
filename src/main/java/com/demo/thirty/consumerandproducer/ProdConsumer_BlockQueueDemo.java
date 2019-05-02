@@ -2,6 +2,7 @@ package com.demo.thirty.consumerandproducer;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -64,7 +65,7 @@ class MyResource{
 public class ProdConsumer_BlockQueueDemo {
 
     public static void main(String[] args) throws Exception {
-        MyResource myResource = new MyResource(new ArrayBlockingQueue<>(10));
+        MyResource myResource = new MyResource(new LinkedBlockingQueue<>(10));
 
         new Thread(() -> {
             System.out.println(Thread.currentThread().getName()+"\t 生产线程启动");
